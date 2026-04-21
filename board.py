@@ -62,7 +62,7 @@ class Cell:
         self.col=col
         self.screen=screen
         self.sketched_value=0
-        self.sketched=False
+        self.selected=False
 
     def set_cell_value(self, value):
         self.value=value
@@ -82,7 +82,7 @@ class Cell:
             text=font.render(str(self.value), True, (0,0,0))
             self.screen.blit(text, (x+20, y+15))
         elif self.sketched_value!=0:
-            text = font.render(str(self.sketched_value), True, (128, 128, 128))
+            text = small_font.render(str(self.sketched_value), True, (128, 128, 128))
             self.screen.blit(text, (x + 5, y + 5))
 
         if self.selected:
@@ -123,15 +123,21 @@ class Board:
         return None
 
     def clear(self):
+        if self.selected is None:
+            return
         row, col=self.selected
         self.cells[row][col].set_cell_value(0)
         self.cells[row][col].set_sketched_value(0)
 
     def sketch(self, value):
+        if self.selected is None:
+            return
         row, col=self.selected
         self.cells[row][col].set_sketched_value(value)
 
     def place_number(self, value):
+        if self.selected is None:
+            return
         row, col=self.selected
         self.cells[row][col].set_cell_value(value)
 
