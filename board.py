@@ -8,9 +8,11 @@ import pygame
 
 # In sudoku.py ...
 # from board import Board
-# difficulty = start_screen(win) ####################### Call start_screen(win) function.
+# difficulty = start_screen(win)
+ ####################### Call start_screen(win) function.
 # board_data = generate_sudoku(9, removed_cells)
-# board = Board(540, 540, win, difficulty, board_data) # Call Board class from board [dot] py
+# board = Board(540, 540, win, difficulty, board_data) 
+# Call Board class from board [dot] py
 # while True:
 #   board.draw()
 #   pygame.display.update()
