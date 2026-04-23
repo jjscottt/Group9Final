@@ -5,7 +5,7 @@ import sys
 # Import Board class and start_screen and generate_sudoku functions
 from board import Board
 from board import start_screen
-from sudoku_generator import genera
+from sudoku_generator import *
 
 # ── Colour palette
 WHITE = (255, 255, 255)
@@ -107,6 +107,7 @@ if __name__ == "__main__":
         removed_cells = 50
 
     # Call Board class from board [dot] py
+    board_data = generate_sudoku(9, removed_cells)
     board = Board(540, 540, win, difficulty, board_data)
 
     # Loop through Sudoku game
@@ -164,6 +165,7 @@ if __name__ == "__main__":
                     removed_cells = 40
                 else:
                     removed_cells = 50
+                board_data = generate_sudoku(9, removed_cells)
                 board = Board(540, 540, win, difficulty, board_data)
 
             elif action == "exit":
