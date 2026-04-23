@@ -220,13 +220,13 @@ class SudokuGenerator:
                 count += 1
         removed=set()
 
-        while len(removed) < self.removed_cells:
-            row=random.randint(0, self.row_length - 1)
-            col=random.randint(0, self.row_length - 1)
-
-            if self.board[row][col] != 0:
-                self.board[row][col] = 0
-                removed.add((row, col))
+        # while len(removed) < self.removed_cells:
+        #     row=random.randint(0, self.row_length - 1)
+        #     col=random.randint(0, self.row_length - 1)
+        #
+        #     if self.board[row][col] != 0:
+        #         self.board[row][col] = 0
+        #         removed.add((row, col))
 
 '''
 DO NOT CHANGE

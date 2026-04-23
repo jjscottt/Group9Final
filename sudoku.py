@@ -5,9 +5,7 @@ import sys
 # Import Board class and start_screen, draw_button, and generate_sudoku functions
 from board import Board
 from board import start_screen
-# from sudoku_generator import *
-from board import draw_button
-from sudoku_generator import generate_sudoku
+from sudoku_generator import *
 
 # ── Colour palette
 WHITE = (255, 255, 255)
@@ -17,7 +15,9 @@ BTN_COLOR = (255, 255, 255)   # white buttons
 BTN_HVR = (220, 220, 220)   # light grey on hover
 BTN_TEXT = (0,   0,   0)     # black button text
 LINE_COLOR = (180,  60,  60)   # reddish separator line
-
+from board import draw_button
+from sudoku_generator import generate_sudoku
+ 
 BOARD_SIZE = 540
 SCREEN_HEIGHT = 660   # 540 board + 120 for button bar
 
@@ -27,8 +27,8 @@ BUTTON_HEIGHT = 50
 
 
 def game_over_screen(screen, result):
-    # import pygame
-    # pygame.font.init()
+    import pygame
+    pygame.font.init()
 
     width, height = screen.get_size()
 
@@ -74,7 +74,8 @@ def game_over_screen(screen, result):
                 if exit_rect.collidepoint(event.pos):
                     return "exit"
 
-
+# Main
+# if __name__ == "__main__":
 def main():
 
     # Initialize pygame
@@ -119,10 +120,10 @@ def main():
         removed_cells = 30
 
     elif difficulty == "medium":
-        removed_cells = 40
+        removed_cells = 45
 
     elif difficulty == "hard":
-        removed_cells = 50
+        removed_cells = 55
 
     # Call Board class from board [dot] py
     board_data = generate_sudoku(9, removed_cells)
@@ -182,14 +183,17 @@ def main():
                 # Check if clicked reset button
                 # event.pos returns x, y
                 if reset_rect.collidepoint(event.pos):
-                    pass
+                    print("Clicked reset button")
                     # board.draw()
                     # Reset board (generate new numbers across board)
+                    board.reset_to_original()
 
                 # Check if clicked restart button
                 if restart_rect.collidepoint(event.pos):
-                    pass
+                    print("Clicked restart button")
                     # Create new game (new game function)
+                    board_data = generate_sudoku(9, removed_cells)
+                    board = Board(BOARD_SIZE, BOARD_SIZE, win, difficulty, board_data)
 
                 # Check if clicked exit button
                 if exit_rect.collidepoint(event.pos):
@@ -197,29 +201,9 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-            # Key input event
-            # if event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_1:
-            #         # 1
-            #     elif event.key == pygame.K_2:
-            #         # 2
-            #     elif event.key == pygame.K_3:
-            #         # 3
-            #     elif event.key == pygame.K_4:
-            #         # 4
-            #     elif event.key == pygame.K_5:
-            #         # 5
-            #     elif event.key == pygame.K_6:
-            #         # 6
-            #     elif event.key == pygame.K_7:
-            #         # 7
-            #     elif event.key == pygame.K_8:
-            #         # 8
-            #     elif event.key == pygame.K_9:
-            #         # 9
-            #     # Return/enter key
-            #     elif event.key == pygame.K_RETURN:
-            #         # Return
+                # Check if player selects 1 - Easy
+                # if (x == 180) and (y == 250):
+                #     print("Generate Sudoku Board")
 
         pygame.display.update()
 
@@ -239,26 +223,15 @@ def main():
                 if difficulty == "easy":
                     removed_cells = 30
                 elif difficulty == "medium":
-                    removed_cells = 40
-                elif difficulty == "hard":
-                    removed_cells = 50
+                    removed_cells = 45
+                else:
+                    removed_cells = 55
                 board_data = generate_sudoku(9, removed_cells)
                 board = Board(540, 540, win, difficulty, board_data)
 
             elif action == "exit":
                 pygame.quit()
-                sys.exit()
 
-        # Restart function
-        # Clear board
-
-        # End game screen
-        # if game_result in ("won", "lost"):
-        #     end = game_over_screen(win, game_result)
-        #
-        #     if end == "restart":
-        #         # Back to start screen
-        #         continue
 
 
 # Main

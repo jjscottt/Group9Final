@@ -194,3 +194,35 @@ class Board:
                 if cell.value==0:
                     return False
         return True
+
+    def check_board(self):
+        # Check rows
+        for row in range(9):
+            nums = []
+            for col in range(9):
+                val = self.cells[row][col].value
+                if val == 0 or val in nums:
+                    return False
+                nums.append(val)
+
+        # Check columns
+        for col in range(9):
+            nums = []
+            for row in range(9):
+                val = self.cells[row][col].value
+                if val == 0 or val in nums:
+                    return False
+                nums.append(val)
+
+        # Check 3x3 boxes
+        for box_row in range(0, 9, 3):
+            for box_col in range(0, 9, 3):
+                nums = []
+                for r in range(3):
+                    for c in range(3):
+                        val = self.cells[box_row + r][box_col + c].value
+                        if val == 0 or val in nums:
+                            return False
+                        nums.append(val)
+
+        return True
