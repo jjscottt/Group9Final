@@ -173,6 +173,12 @@ class Board:
         if self.selected is None:
             return
         row, col=self.selected
+
+
+        # don't clear original cells
+        if self.original[row][col] != 0:
+            return
+
         self.cells[row][col].set_cell_value(0)
         self.cells[row][col].set_sketched_value(0)
 
@@ -186,6 +192,10 @@ class Board:
         if self.selected is None:
             return
         row, col=self.selected
+       # prevent changing original numbers
+        if self.original[row][col] != 0:
+            return
+
         self.cells[row][col].set_cell_value(value)
 
     def is_full(self):

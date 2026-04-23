@@ -171,11 +171,12 @@ def main():
                     board.clear()
 
                 if event.key == pygame.K_RETURN:
-                    if board.selected == True:
+                    if board.selected is not None:
                         row, col = board.selected
                         num = board.cells[row][col].sketched_value
                         if num != 0:
                             board.place_number(num)
+                            board.cells[row][col].set_sketched_value(0)
             # Click event
             if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -186,7 +187,6 @@ def main():
                     # board.draw()
                     # Reset board (generate new numbers across board)
                     board.reset_to_original()
-
                 # Check if clicked restart button
                 if restart_rect.collidepoint(event.pos):
                     print("Clicked restart button")
@@ -200,14 +200,11 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-                # Check if player selects 1 - Easy
-                # if (x == 180) and (y == 250):
-                #     print("Generate Sudoku Board")
 
         pygame.display.update()
 
         # Win/loss condition
-
+        print(board.is_full())
         if board.is_full():
             if board.check_board():
                 result = "won"
@@ -230,10 +227,10 @@ def main():
 
             elif action == "exit":
                 pygame.quit()
-
+                sys.exit()
+    
 
 
 # Main
 if __name__ == "__main__":
-
     main()
