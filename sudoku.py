@@ -5,7 +5,9 @@ import sys
 # Import Board class and start_screen, draw_button, and generate_sudoku functions
 from board import Board
 from board import start_screen
-from sudoku_generator import *
+# from sudoku_generator import *
+from board import draw_button
+from sudoku_generator import generate_sudoku
 
 # ── Colour palette
 WHITE = (255, 255, 255)
@@ -15,9 +17,7 @@ BTN_COLOR = (255, 255, 255)   # white buttons
 BTN_HVR = (220, 220, 220)   # light grey on hover
 BTN_TEXT = (0,   0,   0)     # black button text
 LINE_COLOR = (180,  60,  60)   # reddish separator line
-from board import draw_button
-from sudoku_generator import generate_sudoku
- 
+
 BOARD_SIZE = 540
 SCREEN_HEIGHT = 660   # 540 board + 120 for button bar
 
@@ -27,8 +27,8 @@ BUTTON_HEIGHT = 50
 
 
 def game_over_screen(screen, result):
-    import pygame
-    pygame.font.init()
+    # import pygame
+    # pygame.font.init()
 
     width, height = screen.get_size()
 
@@ -74,8 +74,7 @@ def game_over_screen(screen, result):
                 if exit_rect.collidepoint(event.pos):
                     return "exit"
 
-# Main
-if __name__ == "__main__":
+
 def main():
 
     # Initialize pygame
@@ -183,13 +182,13 @@ def main():
                 # Check if clicked reset button
                 # event.pos returns x, y
                 if reset_rect.collidepoint(event.pos):
-                    print("Clicked reset button")
+                    pass
                     # board.draw()
                     # Reset board (generate new numbers across board)
 
                 # Check if clicked restart button
                 if restart_rect.collidepoint(event.pos):
-                    print("Clicked restart button")
+                    pass
                     # Create new game (new game function)
 
                 # Check if clicked exit button
@@ -197,10 +196,6 @@ def main():
                     # Add pygame.quit and sys exit
                     pygame.quit()
                     sys.exit()
-
-                # Check if player selects 1 - Easy
-                # if (x == 180) and (y == 250):
-                #     print("Generate Sudoku Board")
 
             # Key input event
             # if event.type == pygame.KEYDOWN:
@@ -245,7 +240,7 @@ def main():
                     removed_cells = 30
                 elif difficulty == "medium":
                     removed_cells = 40
-                else:
+                elif difficulty == "hard":
                     removed_cells = 50
                 board_data = generate_sudoku(9, removed_cells)
                 board = Board(540, 540, win, difficulty, board_data)
@@ -253,6 +248,7 @@ def main():
             elif action == "exit":
                 pygame.quit()
                 sys.exit()
+
         # Restart function
         # Clear board
 
