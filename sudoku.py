@@ -5,6 +5,16 @@ import sys
 # Import Board class and start_screen, draw_button, and generate_sudoku functions
 from board import Board
 from board import start_screen
+from sudoku_generator import *
+
+# ── Colour palette
+WHITE = (255, 255, 255)
+LIGHT_RED = (220,  80,  80)   # main background colour
+DARK_RED = (180,  40,  40)   # deeper red for button hover
+BTN_COLOR = (255, 255, 255)   # white buttons
+BTN_HVR = (220, 220, 220)   # light grey on hover
+BTN_TEXT = (0,   0,   0)     # black button text
+LINE_COLOR = (180,  60,  60)   # reddish separator line
 from board import draw_button
 from sudoku_generator import generate_sudoku
  
@@ -16,6 +26,56 @@ BUTTON_WIDTH = 100
 BUTTON_HEIGHT = 50
 
 
+def game_over_screen(screen, result):
+    import pygame
+    pygame.font.init()
+
+    width, height = screen.get_size()
+
+    font_large = pygame.font.Font(None, 80)
+    font_small = pygame.font.Font(None, 40)
+
+    if result == "won":
+        message = "You Won!"
+    else:
+        message = "Game Over"
+
+    # Buttons
+    restart_rect = pygame.Rect(width//2 - 100, height//2 + 40, 200, 50)
+    exit_rect = pygame.Rect(width//2 - 100, height//2 + 110, 200, 50)
+
+    while True:
+        screen.fill((220, 80, 80))  # background
+
+        # Draw message
+        text = font_large.render(message, True, (255, 255, 255))
+        screen.blit(text, (width//2 - text.get_width()//2, height//2 - 100))
+
+        # Draw buttons
+        pygame.draw.rect(screen, (255,255,255), restart_rect, border_radius=8)
+        pygame.draw.rect(screen, (255,255,255), exit_rect, border_radius=8)
+
+        restart_text = font_small.render("Restart", True, (0,0,0))
+        exit_text = font_small.render("Exit", True, (0,0,0))
+
+        screen.blit(restart_text, (restart_rect.x + 50, restart_rect.y + 10))
+        screen.blit(exit_text, (exit_rect.x + 70, exit_rect.y + 10))
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if restart_rect.collidepoint(event.pos):
+                    return "restart"
+                if exit_rect.collidepoint(event.pos):
+                    return "exit"
+
+# Main
+if __name__ == "__main__":
 def main():
 
     # Initialize pygame
@@ -33,6 +93,9 @@ def main():
     # Screen display
     screen_display = pygame.display
 
+    # Form screen
+    win = pygame.display.set_mode((540, 660))
+    pygame.display.set_caption("Sudoku")
     # Set screen size
     x, y = BOARD_SIZE, SCREEN_HEIGHT
 
@@ -62,14 +125,16 @@ def main():
     elif difficulty == "hard":
         removed_cells = 50
 
-    # Board data
-    board_data = generate_sudoku(9, removed_cells)
-
     # Call Board class from board [dot] py
+    board_data = generate_sudoku(9, removed_cells)
+    board = Board(540, 540, win, difficulty, board_data)
     board = Board(BOARD_SIZE, BOARD_SIZE, win, difficulty, board_data)
 
     # Loop through Sudoku game
     while True:
+
+        win.fill((255,255,255))
+        board.draw()
 
         # Clear screen to begin game session
         # C - Instead of white, the board's background
@@ -87,11 +152,31 @@ def main():
         # Event loop
         for event in pygame.event.get():
 
-            # Manage player exit
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                clicked = board.click(pos[0], pos[1])
+
+                if clicked:
+                    board.select(clicked[0], clicked[1])
+
+            if event.type == pygame.KEYDOWN:
+                if pygame.K_1 <= event.key <= pygame.K_9:
+                    num = event.key - pygame.K_0
+                    board.sketch(num)
+
+                if event.key == pygame.K_BACKSPACE:
+                    board.clear()
+
+                if event.key == pygame.K_RETURN:
+                    if board.selected == True:
+                        row, col = board.selected
+                        num = board.cells[row][col].sketched_value
+                        if num != 0:
+                            board.place_number(num)
             # Click event
             if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -145,6 +230,29 @@ def main():
 
         # Win/loss condition
 
+        if board.is_full():
+            if board.check_board():
+                result = "won"
+            else:
+                result = "lost"
+
+            action = game_over_screen(win, result)
+
+            if action == "restart":
+                difficulty = start_screen(win)
+
+                if difficulty == "easy":
+                    removed_cells = 30
+                elif difficulty == "medium":
+                    removed_cells = 40
+                else:
+                    removed_cells = 50
+                board_data = generate_sudoku(9, removed_cells)
+                board = Board(540, 540, win, difficulty, board_data)
+
+            elif action == "exit":
+                pygame.quit()
+                sys.exit()
         # Restart function
         # Clear board
 

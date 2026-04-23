@@ -211,6 +211,13 @@ class SudokuGenerator:
     # be some empty cells.
 
     def remove_cells(self):
+        count = 0
+        while count < self.removed_cells:
+            row = random.randint(0, self.row_length - 1)
+            col = random.randint(0, self.row_length - 1)
+            if self.board[row][col] != 0: #dont remove same cell
+                self.board[row][col] = 0
+                count += 1
         removed=set()
 
         while len(removed) < self.removed_cells:
