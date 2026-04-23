@@ -2,6 +2,16 @@
 import pygame
 
 # Moved draw_button from sudoku
+
+# ── Colour palette
+WHITE = (255, 255, 255)
+LIGHT_RED = (220,  80,  80)   # main background colour
+DARK_RED = (180,  40,  40)   # deeper red for button hover
+BTN_COLOR = (255, 255, 255)   # white buttons
+BTN_HVR = (220, 220, 220)   # light grey on hover
+BTN_TEXT = (0,   0,   0)     # black button text
+LINE_COLOR = (180,  60,  60)   # reddish separator line
+
 def draw_button(surface, text, rect, font, color=BTN_COLOR, hover_color=BTN_HVR, text_color=BTN_TEXT):
     mouse = pygame.mouse.get_pos()
     current_color = hover_color if rect.collidepoint(mouse) else color
