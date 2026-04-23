@@ -5,7 +5,7 @@ import pygame
 # ── Color palette
 WHITE = (255, 255, 255)
 LIGHT_RED = (220,  80,  80)   # main background color
-DARK_RED = (0,0,0)   # deeper red for button hover
+new_border = (0,0,0)   # C - changed dark_red to black
 BTN_COLOR = (255, 255, 255)   # white buttons
 BTN_HVR = (220, 220, 220)   # light gray on hover
 BTN_TEXT = (0,   0,   0)     # black button text
@@ -19,7 +19,7 @@ def draw_button(surface, text, rect, font, color=BTN_COLOR, hover_color=BTN_HVR,
     mouse = pygame.mouse.get_pos()
     current_color = hover_color if rect.collidepoint(mouse) else color
     pygame.draw.rect(surface, current_color, rect, border_radius=8)
-    pygame.draw.rect(surface, DARK_RED, rect, 2, border_radius=8)
+    pygame.draw.rect(surface, new_border, rect, 2, border_radius=8)
     label = font.render(text, True, text_color)
     lx = rect.x + (rect.width - label.get_width()) // 2
     ly = rect.y + (rect.height - label.get_height()) // 2
