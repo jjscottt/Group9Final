@@ -74,7 +74,7 @@ def main():
         # Clear screen to begin game session
         # C - Instead of white, the board's background
         #color is light blue.
-        win.fill((235, 245, 252))
+        win.fill((237, 247, 255))
 
         # Draw board
         board.draw()
