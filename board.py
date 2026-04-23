@@ -78,9 +78,9 @@ def start_screen(win):
                 mouse_pos=event.pos
                 if easy_rect.collidepoint(mouse_pos):
                     return "easy"
-                if medium_rect.collidepoint(mouse_pos):
+                elif medium_rect.collidepoint(mouse_pos):
                     return "medium"
-                if hard_rect.collidepoint(mouse_pos):
+                elif hard_rect.collidepoint(mouse_pos):
                     return "hard"
 
 # ---------- THE BOARD ----------
