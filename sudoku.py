@@ -13,7 +13,7 @@ SCREEN_HEIGHT = 660   # 540 board + 120 for button bar
 
 # Button settings
 BUTTON_WIDTH = 100
-BUTTON_HEIGHT = 100
+BUTTON_HEIGHT = 50
 
 
 def main():
@@ -26,9 +26,9 @@ def main():
 
     # Create rectangle for reset, restart, and exit buttons
     # Format: pygame.Rect(x (left), y (top), width, height)
-    reset_rect = pygame.Rect(60, 600, BUTTON_WIDTH, BUTTON_HEIGHT)
-    restart_rect = pygame.Rect(60, 600, BUTTON_WIDTH, BUTTON_HEIGHT)
-    exit_rect = pygame.Rect(60, 600, BUTTON_WIDTH, BUTTON_HEIGHT)
+    reset_rect = pygame.Rect(120, 570, BUTTON_WIDTH, BUTTON_HEIGHT)
+    restart_rect = pygame.Rect(230, 570, BUTTON_WIDTH, BUTTON_HEIGHT)
+    exit_rect = pygame.Rect(340, 570, BUTTON_WIDTH, BUTTON_HEIGHT)
 
     # Screen display
     screen_display = pygame.display
@@ -67,12 +67,6 @@ def main():
 
     # Call Board class from board [dot] py
     board = Board(BOARD_SIZE, BOARD_SIZE, win, difficulty, board_data)
-    # board = Board(x, y, win, difficulty, board_data)
-
-    # Create reset, restart, and exit buttons
-    draw_button(win, "RESET", reset_rect, button_font)
-    draw_button(win, "RESTART", restart_rect, button_font)
-    draw_button(win, "EXIT", exit_rect, button_font)
 
     # Loop through Sudoku game
     while True:
@@ -83,6 +77,11 @@ def main():
         # Draw board
         board.draw()
 
+        # Create reset, restart, and exit buttons
+        draw_button(win, "RESET", reset_rect, button_font)
+        draw_button(win, "RESTART", restart_rect, button_font)
+        draw_button(win, "EXIT", exit_rect, button_font)
+
         # Event loop
         for event in pygame.event.get():
 
@@ -92,13 +91,29 @@ def main():
                 sys.exit()
 
             # Click event
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            # Get position
-            # x, y = event.pos
-            #
-            # # Check if player selects 1 - Easy
-            # if (x == 180) and (y == 250):
-            #     print("Generate Sudoku Board")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+                # Check if clicked reset button
+                # event.pos returns x, y
+                if reset_rect.collidepoint(event.pos):
+                    print("Clicked reset button")
+                    # board.draw()
+                    # Reset board (generate new numbers across board)
+
+                # Check if clicked restart button
+                if restart_rect.collidepoint(event.pos):
+                    print("Clicked restart button")
+                    # Create new game (new game function)
+
+                # Check if clicked exit button
+                if exit_rect.collidepoint(event.pos):
+                    # Add pygame.quit and sys exit
+                    pygame.quit()
+                    sys.exit()
+
+                # Check if player selects 1 - Easy
+                # if (x == 180) and (y == 250):
+                #     print("Generate Sudoku Board")
 
             # Key input event
             # if event.type == pygame.KEYDOWN:
@@ -127,6 +142,9 @@ def main():
         pygame.display.update()
 
         # Win/loss condition
+
+        # Restart function
+        # Clear board
 
         # End game screen
         # if game_result in ("won", "lost"):
