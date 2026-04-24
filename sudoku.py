@@ -180,6 +180,28 @@ def main():
                         if num != 0:
                             board.place_number(num)
                             board.cells[row][col].set_sketched_value(0)
+                # arrow key movement
+                if event.key == pygame.K_LEFT:
+                    if board.selected is not None:
+                        row, col = board.selected
+                        if col > 0:
+                            board.select(row, col - 1)
+                if event.key == pygame.K_RIGHT:
+                    if board.selected is not None:
+                        row, col = board.selected
+                        if col < 8:
+                            board.select(row, col + 1)
+                if event.key == pygame.K_UP:
+                    if board.selected is not None:
+                        row, col = board.selected
+                        if row > 0:
+                            board.select(row - 1, col)
+                if event.key == pygame.K_DOWN:
+                    if board.selected is not None:
+                        row, col = board.selected
+                        if row < 8:
+                            board.select(row + 1, col)
+
             # Click event
             if event.type == pygame.MOUSEBUTTONDOWN:
 
